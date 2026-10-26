@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "code-knowledge-engine"
+version = "3.0.0"
+description = "Readable, local-first code knowledge engine"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+ast = ["tree-sitter>=0.25,<0.26", "tree-sitter-typescript>=0.23,<0.24", "tree-sitter-javascript>=0.23,<0.26"]
+
+[project.scripts]
+cke = "cke.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+"cke.viewer" = ["static/*.html", "static/*.css", "static/*.js"]

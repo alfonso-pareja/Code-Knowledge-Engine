@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CKE · Knowledge Explorer</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body><main>
+<h1>CKE · Knowledge Explorer</h1>
+<p>Consulta fragmentos de código y explora relaciones de tus bases de conocimiento locales.</p>
+<nav><button id="tab-search" class="active" type="button">Búsqueda</button><button id="tab-graph" type="button">Imports</button><button id="tab-config" type="button">Configuración IA</button></nav>
+<section id="search-panel">
+<form id="search-form" class="controls">
+<select id="kb" aria-label="Base de conocimiento" required></select>
+<select id="mode" aria-label="Modo"><option value="semantic">Semántica</option><option value="hybrid">Híbrida</option><option value="keyword">Palabras clave</option></select>
+<input id="query" aria-label="Pregunta" placeholder="¿Cómo se nomina una tarjeta?" required />
+<input id="repos" placeholder="Fuentes o proyectos, separados por coma" aria-label="Repositorios"/><input id="language" placeholder="Lenguaje (opcional)" aria-label="Lenguaje"/><input id="limit" type="number" min="1" max="100" value="10" aria-label="Límite"/><button class="primary" type="submit">Buscar</button>
+</form>
+<p class="status" id="search-status" role="status"></p>
+<div id="results" aria-live="polite"></div><section class="panel"><h2>Pregunta con evidencia</h2><p>Usa la pregunta y los filtros anteriores. El proveedor configurado genera una respuesta con citas o prepara contexto para tu agente.</p><input id="model" placeholder="Modelo de respuestas configurado" aria-label="Modelo de respuestas (opcional)"/><button id="ask" type="button">Generar respuesta</button><p id="answer-status" role="status"></p><pre id="answer"></pre><div id="citations"></div></section>
+</section>
+<section id="graph-panel" hidden>
+<form id="graph-form" class="controls"><select id="graph-kb" aria-label="Base para imports" required></select><button type="submit">Cargar imports</button></form>
+<p class="status" id="graph-status" role="status"></p><p>Relaciones estáticas candidatas; no representa ejecución entre servicios.</p><svg id="graph" viewBox="0 0 1000 500" role="img" aria-label="Grafo de imports"></svg><div id="graph-results"></div>
+</section>
+<section id="config-panel" hidden>
+<h2>Configurar IA</h2>
+<p>Elige dónde se generan las respuestas y, por separado, los embeddings para búsqueda semántica.</p>
+<form id="config-form">
+<p><label>Respuestas <select id="provider"><option value="ollama">Local · Ollama</option><option value="openai">Nube · OpenAI API</option><option value="copilot">Agente · GitHub Copilot</option><option value="chatgpt">Agente · ChatGPT</option><option value="codex">Agente · Codex</option></select></label></p>
+<p><label>Modelo de respuestas <input id="answer-model" placeholder="Vacío: valor predeterminado; agentes: se elige en el cliente"/></label></p>
+<p><label>Embeddings <select id="embedding-provider"><option value="none">Sin embeddings · búsqueda textual</option><option value="ollama">Local · Ollama</option><option value="openai">Nube · OpenAI API</option></select></label></p>
+<p><label>Modelo de embeddings <input id="embedding-model" placeholder="Vacío: valor predeterminado del proveedor"/></label></p>
+<p><label><input id="allow-cloud-code" type="checkbox"/> Autorizo enviar código a OpenAI: chunks para embeddings y contexto recuperado para respuestas.</label></p>
+<p>La API key se define con OPENAI_API_KEY en el entorno del servidor. No se guarda ni se introduce en esta página. La API y la suscripción ChatGPT se facturan por separado.</p>
+<button type="submit">Guardar configuración</button>
+</form>
+<p id="config-status" role="status"></p><pre id="config-help"></pre>
+</section></main>
+<script src="/static/app.js" defer></script></body></html>
